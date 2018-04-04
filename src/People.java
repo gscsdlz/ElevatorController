@@ -1,4 +1,6 @@
-public class People {
+import java.util.Comparator;
+
+public class People implements Comparable<People> {
     public static int id = 1;
     public int beginFloor = 1;
     public int endFloor = 10;
@@ -13,5 +15,11 @@ public class People {
 
     public People() {
         id = id + 1;
+    }
+
+    @Override
+    public int compareTo(People o) {
+        //从小到大排序
+        return (this.endFloor - o.endFloor);
     }
 }

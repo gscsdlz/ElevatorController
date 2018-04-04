@@ -43,18 +43,28 @@ public class MyPanel extends JPanel{
         for(int j = 0 ; j < 10 ; j++) {
             g.setColor(Color.BLACK);
             g.drawRect(300, 400 - 40 * j, 55, 40);
+            if(Start.elevatorQueue[0].getCurrentFloor() == j + 1)
+                g.drawString(Start.elevatorQueue[0].size() + "", 325, 400 - 40 * j + 20);
         }
         for(int j = 0 ; j < 10 ; j++) {
             g.setColor(Color.BLACK);
             g.drawRect(635, 400 - 40 * j, 55, 40);
+            if(Start.elevatorQueue[1].getCurrentFloor() == j + 1)
+                g.drawString(Start.elevatorQueue[1].size() + "", 660, 400 - 40 * j + 20);
         }
         for(int j = 0 ; j < 10 ; j++) {
             g.setColor(Color.BLACK);
             g.drawRect(970, 400 - 40 * j, 55, 40);
+
+            if(Start.elevatorQueue[2].getCurrentFloor() == j + 1)
+                g.drawString(Start.elevatorQueue[2].size() + "", 995, 400 - 40 * j + 20);
         }
         for(int j = 0 ; j < 10 ; j++) {
             g.setColor(Color.BLACK);
             g.drawRect(1305, 400 - 40 * j, 55, 40);
+
+            if(Start.elevatorQueue[3].getCurrentFloor() == j + 1)
+                g.drawString(Start.elevatorQueue[3].size() + "", 1330, 400 - 40 * j + 20);
         }
 
         g.setColor(Color.black);
