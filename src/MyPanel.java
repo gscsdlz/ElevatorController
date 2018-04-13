@@ -3,6 +3,10 @@ import java.awt.*;
 
 public class MyPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
+    public boolean drawUpOn = false;
+    public boolean drawDownOn = false;
+
+    private int[][] args = new int[4][2];
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -10,8 +14,9 @@ public class MyPanel extends JPanel{
 		//设置标题
 		drawBasicUI(g);
 		for(int i = 0; i < 4; i++) {
-		    drawPeople(g, i, Start.peopleQueue[i].size());
+		    drawPeople(g, i, Start.peopleQueue.size(i));
         }
+        _drawDown(g);
 	}
 
     /**
@@ -71,8 +76,13 @@ public class MyPanel extends JPanel{
         g.drawLine(20, 500, 1300, 500);
 
         g.setColor(Color.black);
-        g.drawString("平均等待时间：" + Start.aveWaitTime + "秒", 100, 550);
-        g.drawString("平均队列人数：" + Start.aveQueueSize + "人", 100, 590);
+        if(Start.hasEnd) {
+            g.drawString("平均等待时间：" + Start.aveWaitTime + "秒", 100, 550);
+            g.drawString("平均队列人数：" + Start.aveQueueSize + "人", 100, 590);
+        } else {
+            g.drawString("平均等待时间： -- 秒", 100, 550);
+            g.drawString("平均队列人数： -- 人", 100, 590);
+        }
     }
 
     /**
@@ -104,6 +114,29 @@ public class MyPanel extends JPanel{
 
             g.drawLine(x + zoom / 2, y + zoom * 2, x, y + zoom * 3);
             g.drawLine(x + zoom / 2, y + zoom * 2, x + zoom, y + zoom * 3);
+        }
+    }
+
+    /**
+     * 外部接口
+     */
+    public void setDrawDown(int id, int size, int floor) {
+        drawDownOn = true;
+        args[id][0] =size;
+        args[id][1] =floor;
+    }
+
+    /**
+     * 内部函数
+     * @param g
+     */
+    private void _drawDown(Graphics g) {
+        if(drawDownOn) {
+            g.setColor(Color.red);
+            for(int i = 0; i < 4; i++) {
+                if(args[i][0] != 0)
+                    g.drawString(args[i][0] + "", 325 + i * 335 + 40, 400 - 40 * args[i][1] + 20);
+            }
         }
     }
 }
