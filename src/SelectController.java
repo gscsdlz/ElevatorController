@@ -1,12 +1,25 @@
-
+/**
+ * 等待区选择策略的控制器，单例模式
+ */
 public class SelectController {
     private QueueSelectStrategy strategy = null;
+    private static SelectController instance = null;
 
-    public void setStrategy(QueueSelectStrategy strategy) {
-        this.strategy  = strategy;
+    public static void setStrategy(QueueSelectStrategy strategy) {
+        SelectController in = getInstance();
+        in.strategy = strategy;
     }
 
-    public int getQueueID() {
-        return this.strategy.doSelect();
+    public static int getQueueID() {
+        SelectController in  = getInstance();
+        return in.strategy.doSelect();
+    }
+
+    private static SelectController getInstance() {
+        if(instance == null) {
+            return instance = new SelectController();
+        } else {
+            return instance;
+        }
     }
 }

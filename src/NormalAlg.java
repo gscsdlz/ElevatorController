@@ -8,8 +8,8 @@ public class NormalAlg implements QueueSelectStrategy {
         int length = Integer.MAX_VALUE;
         int pos = -1;
         for(int i = 0; i < 4; i++) {
-            if(length > Start.peopleQueue[i].size()) {
-                length = Start.peopleQueue[i].size();
+            if(length > Start.peopleQueue.size(i)) {
+                length = Start.peopleQueue.size(i);
                 pos = i;
             }
         }
