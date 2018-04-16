@@ -11,10 +11,10 @@ public class Start {
     public static MyFrame ui = new MyFrame();
 
     public static int MAX_MINTUES = 10; //最大分钟
-    public static int HIGH_VALUE = 50;  //每分钟人数峰值
+    public static int HIGH_VALUE = 30;  //每分钟人数峰值
     public static int QUEUE_SIZE = 20;  //电梯等待区大小
     public static int ELEVATO_SIZE = 10; //电梯容量
-    public static int ELEVATO_SPEED = 20; //电梯每分钟运行楼层数 包括上下
+    public static int ELEVATO_SPEED = 14; //电梯每分钟运行楼层数 包括上下
     public static int queue[] = new int[MAX_MINTUES];
     public static PeopleQueue peopleQueue = new PeopleQueue();  //等待区
 
@@ -45,7 +45,7 @@ public class Start {
             new Thread(waitQueue).start();
             if(i == 0) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -81,7 +81,7 @@ public class Start {
                 ui.repaint();
 
                  try {
-                    Thread.sleep(1000);
+                    Thread.sleep(200);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }

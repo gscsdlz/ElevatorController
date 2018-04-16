@@ -23,7 +23,7 @@ public class Elevator {
     }
 
     public void move() {
-        if(currentFloor == 10)
+        if(currentFloor == 14)
             direct = -1;
         if(currentFloor == 1)
             direct = 1;

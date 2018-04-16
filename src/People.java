@@ -3,7 +3,7 @@ import java.util.Comparator;
 public class People implements Comparable<People> {
     public static int id = 1;
     public int beginFloor = 1;
-    public int endFloor = 10;
+    public int endFloor = 14;
     public int comingTime = 0;
 
     public People(int beginFloor, int endFloor, int comingTime) {
@@ -19,7 +19,7 @@ public class People implements Comparable<People> {
 
     @Override
     public int compareTo(People o) {
-        //从小到大排序
+    	//��С��������
         return (this.endFloor - o.endFloor);
     }
 }

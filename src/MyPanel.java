@@ -42,34 +42,34 @@ public class MyPanel extends JPanel{
 
         for(int i = 0; i < 4 ; i++) {
             g.setColor(Color.yellow);
-            g.drawRect(20 + i * 335, 400, 280, 40);
-            g.fillRect(20+ i * 335, 400, 280, 40);
+            g.drawRect(20 + i * 320, 400, 260, 40);
+            g.fillRect(20+ i * 320, 400, 260, 40);
         }
-        for(int j = 0 ; j < 10 ; j++) {
+        for(int j = 0 ; j < 14 ; j++) {
             g.setColor(Color.BLACK);
-            g.drawRect(300, 400 - 40 * j, 55, 40);
+            g.drawRect(280, 410 - 30 * j, 55, 30);
             if(Start.elevatorQueue[0].getCurrentFloor() == j + 1)
-                g.drawString(Start.elevatorQueue[0].size() + "", 325, 400 - 40 * j + 20);
+                g.drawString(Start.elevatorQueue[0].size() + "人", 300, 410 - 30 * j + 20);
         }
-        for(int j = 0 ; j < 10 ; j++) {
+        for(int j = 0 ; j < 14 ; j++) {
             g.setColor(Color.BLACK);
-            g.drawRect(635, 400 - 40 * j, 55, 40);
+            g.drawRect(600, 410 - 30 * j, 55, 30);
             if(Start.elevatorQueue[1].getCurrentFloor() == j + 1)
-                g.drawString(Start.elevatorQueue[1].size() + "", 660, 400 - 40 * j + 20);
+                g.drawString(Start.elevatorQueue[1].size() + "人", 620, 410 - 30 * j + 20);
         }
-        for(int j = 0 ; j < 10 ; j++) {
+        for(int j = 0 ; j < 14 ; j++) {
             g.setColor(Color.BLACK);
-            g.drawRect(970, 400 - 40 * j, 55, 40);
+            g.drawRect(920, 410 - 30 * j, 55, 30);
 
             if(Start.elevatorQueue[2].getCurrentFloor() == j + 1)
-                g.drawString(Start.elevatorQueue[2].size() + "", 995, 400 - 40 * j + 20);
+                g.drawString(Start.elevatorQueue[2].size() + "人", 940, 410 - 30 * j + 20);
         }
-        for(int j = 0 ; j < 10 ; j++) {
+        for(int j = 0 ; j < 14 ; j++) {
             g.setColor(Color.BLACK);
-            g.drawRect(1305, 400 - 40 * j, 55, 40);
+            g.drawRect(1240, 410 - 30 * j, 55, 30);
 
             if(Start.elevatorQueue[3].getCurrentFloor() == j + 1)
-                g.drawString(Start.elevatorQueue[3].size() + "", 1330, 400 - 40 * j + 20);
+                g.drawString(Start.elevatorQueue[3].size() + "人", 1260, 410 - 30 * j + 20);
         }
 
         g.setColor(Color.black);
@@ -99,19 +99,19 @@ public class MyPanel extends JPanel{
         int space = 10;
         if(length > 9) {
             g.drawString(length + " x",
-                    20 + elevatorID * 335 + 280 - 3 * zoom - 10 * 3,
+                    20 + elevatorID * 320 + 260 - 3 * zoom - 10 * 3,
                     435);
             length = 1;
         }
         for(int i = 1; i <= length; i++) {
-            int x = 20 + elevatorID * 335 + 280 - i * zoom - 10 * i;
+            int x = 20 + elevatorID * 320 + 260 - i * zoom - 10 * i;
             int y = 400;
-
+            //小人的头
             g.fillArc(x, y, zoom, zoom, 0, 360);
+            //小人的身子
             g.drawLine(x + zoom / 2, y + zoom, x + zoom / 2, y + zoom + zoom);
-
             g.drawLine(x, y + zoom + zoom / 2, x + zoom, y + zoom + zoom / 2);
-
+            //小人的脚
             g.drawLine(x + zoom / 2, y + zoom * 2, x, y + zoom * 3);
             g.drawLine(x + zoom / 2, y + zoom * 2, x + zoom, y + zoom * 3);
         }
@@ -135,7 +135,7 @@ public class MyPanel extends JPanel{
             g.setColor(Color.red);
             for(int i = 0; i < 4; i++) {
                 if(args[i][0] != 0)
-                    g.drawString(args[i][0] + "", 325 + i * 335 + 40, 400 - 40 * args[i][1] + 20);
+                    g.drawString("-"+args[i][0] + "人", 310 + i * 320 + 40, 410 - 30 * args[i][1] + 20);
             }
         }
     }

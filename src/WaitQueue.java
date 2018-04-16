@@ -1,4 +1,3 @@
-
 /**
  * 等待区调度，线程函数 设置每分钟需要装入的People数 自动载入
  */
@@ -14,7 +13,7 @@ public class WaitQueue extends Thread {
             int id = SelectController.getQueueID();
             Start.peopleQueue.push(p, id);
             try {
-                sleep(18000 / currentSize);
+                sleep(170 / currentSize);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

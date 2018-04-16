@@ -24,6 +24,8 @@ public class MyFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("切换到正常模式");
+				JOptionPane.showMessageDialog(Start.ui,"正常模式", "提示信息",JOptionPane.WARNING_MESSAGE );
+
 				SelectController.setStrategy(new NormalAlg());
 			}
 		});
@@ -34,6 +36,8 @@ public class MyFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("切换到单双层模式");
+				JOptionPane.showMessageDialog(Start.ui,"切换到单双层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
+
 				SelectController.setStrategy(new SingleDoubleAlg());
 			}
 		});
@@ -46,6 +50,8 @@ public class MyFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("切换到分层模式");
+				JOptionPane.showMessageDialog(Start.ui,"切换到分层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
+
 				SelectController.setStrategy(new LayerModeAlg());
 
 			}
@@ -54,11 +60,7 @@ public class MyFrame extends JFrame{
 		jp1.add(jb1);
 		jp1.add(jb2);
 		jp1.add(jb3);
-	/*	Box box = Box.createHorizontalBox();
-		box.add(jb1);
-		box.add(jb2);
-		box.add(jb3);*/
-		
+	
 		this.setTitle("电梯系统的仿真与可视化");
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH	);
 		this.setAlwaysOnTop(true);
