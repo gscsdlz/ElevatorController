@@ -52,4 +52,10 @@ public class Elevator {
     public int getCurrentFloor() {
         return this.currentFloor;
     }
+
+    public void init() {
+        popAll();
+        currentFloor = 1;
+        direct = 1;
+    }
 }

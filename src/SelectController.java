@@ -8,6 +8,7 @@ public class SelectController {
     public static void setStrategy(QueueSelectStrategy strategy) {
         SelectController in = getInstance();
         in.strategy = strategy;
+
     }
 
     public static int getQueueID() {

@@ -28,4 +28,11 @@ public class PeopleQueue {
     public int size() {
         return queue[0].size() + queue[1].size() + queue[2].size() + queue[3].size();
     }
+
+    public void init()
+    {
+        for(int i = 0; i < 4; i++) {
+            queue[i].clear();
+        }
+    }
 }

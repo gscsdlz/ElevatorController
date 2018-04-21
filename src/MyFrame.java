@@ -27,6 +27,7 @@ public class MyFrame extends JFrame{
 				JOptionPane.showMessageDialog(Start.ui,"正常模式", "提示信息",JOptionPane.WARNING_MESSAGE );
 
 				SelectController.setStrategy(new NormalAlg());
+				Start.start();
 			}
 		});
 		jb2=new JButton("单双层模式");
@@ -39,6 +40,7 @@ public class MyFrame extends JFrame{
 				JOptionPane.showMessageDialog(Start.ui,"切换到单双层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
 
 				SelectController.setStrategy(new SingleDoubleAlg());
+				Start.start();
 			}
 		});
 
@@ -53,6 +55,7 @@ public class MyFrame extends JFrame{
 				JOptionPane.showMessageDialog(Start.ui,"切换到分层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
 
 				SelectController.setStrategy(new LayerModeAlg());
+				Start.start();
 
 			}
 		});
