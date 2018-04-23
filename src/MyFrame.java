@@ -20,45 +20,45 @@ public class MyFrame extends JFrame{
 		Font f=new Font("华文行楷",Font.BOLD,20);//根据指定字体名称、样式和磅值大小，创建一个新 Font。
 		jb1.setFont(f);
 		//jb1.setBounds(20,10,800,560);
-		jb1.addActionListener(new ActionListener() {
+		/*jb1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("切换到正常模式");
 				JOptionPane.showMessageDialog(Start.ui,"正常模式", "提示信息",JOptionPane.WARNING_MESSAGE );
 
 				SelectController.setStrategy(new NormalAlg());
-				Start.start();
+				Start.init();
 			}
-		});
+		});*/
 		jb2=new JButton("单双层模式");
 		jb2.setFont(f);
 		jb2.setBounds(20,10,830,560);
-		jb2.addActionListener(new ActionListener() {
+		/*jb2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("切换到单双层模式");
 				JOptionPane.showMessageDialog(Start.ui,"切换到单双层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
 
 				SelectController.setStrategy(new SingleDoubleAlg());
-				Start.start();
+				Start.init();
 			}
 		});
-
+*/
 		
 		jb3=new JButton("分层模式");
 		jb3.setFont(f);
 		jb3.setBounds(20,10,860,560);
-		jb3.addActionListener(new ActionListener() {
+	/*	jb3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("切换到分层模式");
 				JOptionPane.showMessageDialog(Start.ui,"切换到分层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
 
 				SelectController.setStrategy(new LayerModeAlg());
-				Start.start();
+				Start.init();
 
 			}
-		});
+		});*/
 		jp1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		jp1.add(jb1);
 		jp1.add(jb2);

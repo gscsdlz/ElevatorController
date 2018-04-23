@@ -77,10 +77,10 @@ public class MyPanel extends JPanel{
 
         g.setColor(Color.black);
         if(Start.hasEnd) {
-            g.drawString("平均等待时间：" + Start.aveWaitTime + "秒", 100, 550);
+            g.drawString("平均等待时间：" + Start.aveWaitTime + "分钟", 100, 550);
             g.drawString("平均队列人数：" + Start.aveQueueSize + "人", 100, 590);
         } else {
-            g.drawString("平均等待时间： -- 秒", 100, 550);
+            g.drawString("平均等待时间： -- 分钟", 100, 550);
             g.drawString("平均队列人数： -- 人", 100, 590);
         }
     }

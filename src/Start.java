@@ -27,20 +27,36 @@ public class Start {
         //初始化相关参数
         ui = new MyFrame();
         ui.init();
-        SelectController.setStrategy(new NormalAlg());  //初始化为正常模式
+
         for(int i = 0; i < 4; i++)
             elevatorQueue[i] = new Elevator();
-        start();
 
-        /**
-         * 每分钟来的人的总数
-         */
         for (int i = 0; i < MAX_MINTUES; i++) {
             int value = Possion.getPossion(HIGH_VALUE);
             queue[i] = value;
         }
+        JOptionPane.showMessageDialog(Start.ui,"开始使用正常模式", "提示信息",JOptionPane.WARNING_MESSAGE );
+
+        SelectController.setStrategy(new NormalAlg());  //初始化为正常模式
+        init();
 
 
+        ui = new MyFrame();
+        ui.init();
+        JOptionPane.showMessageDialog(Start.ui,"开始使用单双层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
+
+        SelectController.setStrategy(new SingleDoubleAlg());
+        init();
+
+        ui = new MyFrame();
+        ui.init();
+        JOptionPane.showMessageDialog(Start.ui,"开始使用分层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
+
+        SelectController.setStrategy(new LayerModeAlg());
+        init();
+    }
+
+    public static void start() {
         for (int i = 0; i < MAX_MINTUES; i++) {
             waitQueue.setCurrent(queue[i], i);
             new Thread(waitQueue).start();
@@ -89,15 +105,14 @@ public class Start {
                 }
             }
         }
-        aveQueueSize /= (totalSizeCount * 4);
+        aveQueueSize /=  4;
         aveWaitTime  /= totalWaitCount;
         hasEnd = true;   //运行结束
         ui.repaint();
         JOptionPane.showMessageDialog(ui,"运行已经结束", "提示信息",JOptionPane.WARNING_MESSAGE );
-
     }
 
-    public static void start() {
+    public static void init() {
         aveWaitTime = 0;
         aveQueueSize = 0;
         hasEnd = false;
@@ -110,5 +125,6 @@ public class Start {
             elevatorQueue[i].init();
         }
         peopleQueue.init();
+        start();
     }
 }
