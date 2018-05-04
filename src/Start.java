@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.lang.*;
+import java.util.ArrayList;
 
 public class Start {
 
@@ -8,19 +9,19 @@ public class Start {
     private MyFrame ui;
     private PublicPool pool;
     private RandController randCtl;
-    private int time = 0;
+    public int time = 0;
     public int mintues = 0;
-//    public static boolean overflowerSig = false;
-    //public static int totalWaitCount = 0;
+
+    public int totalWaitCount = 0;
     public int totalSizeCount = 0;
 
 
     public Start(QueueSelectStrategy queueSelectStrategy, int id) {
         pool = new PublicPool(queueSelectStrategy);
-        randCtl = new RandController(pool);
+        randCtl = new RandController(pool, this);
 
         for(int i = 0; i < 4; i++)
-            elevator[i] = new Elevator(pool, i, id);
+            elevator[i] = new Elevator(pool, i, id, this);
         ui = new MyFrame();
 
         ui.init(id);
@@ -60,7 +61,15 @@ public class Start {
                     hasEnd = true;
                 }
                 refresh();
-                ui.drawEnd(totalSizeCount);
+
+                //统计队列中剩余的人  避免误差
+                ArrayList<People> res = pool.getAll();
+
+                int currentTime = mintues * Config.ONE_MINUTE ;
+                for(int i = 0; i < res.size(); i++) {
+                    totalWaitCount += currentTime - res.get(i).comingTime;
+                }
+                ui.drawEnd(totalSizeCount, totalWaitCount);
                 ui.repaint();
             }
         }
@@ -90,60 +99,5 @@ public class Start {
         elevator[1].start();
         elevator[2].start();
         elevator[3].start();
-
-
-//        for (int i = 0; i < MAX_MINTUES; i++) {
-//            waitQueue.setCurrent(queue[i], i);
-//            new Thread(waitQueue).start();
-//
-//            if(i == 0) {
-//                try {
-//                    Thread.sleep(100);
-//                } catch (InterruptedException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//            totalSizeCount++;
-//            aveQueueSize += peopleQueue.size();
-//
-//            ui.repaint();
-//            for(int t = 0; t < ELEVATO_SPEED; t++) {
-//
-//                //离开一楼等待区
-//                for(int k = 0; k < 4; k++) {
-//                    if(elevatorQueue[k].getCurrentFloor() == 1) {
-//                        while(elevatorQueue[k].size() < ELEVATO_SIZE && peopleQueue.size(k) != 0) {   //当电梯有剩余空间，且等待区有人时进队列
-//                            People p = peopleQueue.pop(k);
-//                            aveWaitTime += i - p.comingTime;
-//                            totalWaitCount++;
-//                            elevatorQueue[k].push(p);  //压入优先队列
-//                        }
-//                    }
-//                }
-//
-//                for(int j = 0; j < 4; j++) {
-//                    int size = elevatorQueue[j].size();
-//                    elevatorQueue[j].popAll();
-//                    size -= elevatorQueue[j].size();
-//
-//                    elevatorQueue[j].move();
-//                    ui.drawDown(j, size, elevatorQueue[j].getCurrentFloor() - 1);
-//
-//                }
-//                ui.drawDownOn();
-//                ui.repaint();
-//
-//                try {
-//                    Thread.sleep(200);
-//                } catch (InterruptedException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        }
-//        aveQueueSize /=  4;
-//        aveWaitTime  /= totalWaitCount;
-//        hasEnd = true;   //运行结束
-//        ui.repaint();
-//        JOptionPane.showMessageDialog(ui,"运行已经结束", "提示信息",JOptionPane.WARNING_MESSAGE );
     }
 }

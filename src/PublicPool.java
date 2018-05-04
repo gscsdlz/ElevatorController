@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -46,5 +47,17 @@ public class PublicPool {
                 num[i * 14 + j] = this.size(i, j);
 
         return num;
+    }
+
+    public synchronized ArrayList<People> getAll() {
+        ArrayList<People> res = new ArrayList<People>();
+
+        for(int i = 0; i < 112; i++) {
+            while(!queue[i].isEmpty()) {
+                res.add(queue[i].remove());
+            }
+        }
+
+        return res;
     }
 }

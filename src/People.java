@@ -1,6 +1,7 @@
+import java.time.Period;
 import java.util.Comparator;
 
-public class People {
+public class People implements Cloneable {
     public int id = 0;
     public int beginFloor = 1;
     public int endFloor = 14;
@@ -18,5 +19,16 @@ public class People {
     @Override
     public String toString() {
         return id + " " + this.beginFloor + " " + this.endFloor;
+    }
+
+    public Object clone() {
+        People p = null;
+
+        try {
+            p = (People)super.clone();
+        } catch(CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return p;
     }
 }

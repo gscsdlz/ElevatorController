@@ -87,7 +87,7 @@ public class MyFrame extends JFrame{
         mp.setPeople(size);
     }
 
-    public void drawEnd(int totalSizeCount) {
-        mp.setEnd(totalSizeCount);
+    public void drawEnd(int totalSizeCount, int totalWaitTime) {
+        mp.setEnd(totalSizeCount, totalWaitTime);
     }
 }

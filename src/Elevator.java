@@ -15,14 +15,16 @@ public class Elevator extends Thread{
     private int elevatorID;
     private int outNum = 0;
     private int runType;
+    private Start instance;
 
-    public Elevator(PublicPool pool, int id, int type) {
+    public Elevator(PublicPool pool, int id, int type, Start s) {
         this.container = new LinkedList<People>();
         this.poolInstance = pool;
         currentFloor = 0;
         direct = 1;
         elevatorID  = id;
         runType = type;
+        instance = s;
     }
 
     protected void push() {
@@ -40,7 +42,7 @@ public class Elevator extends Thread{
     public void move() {
         //先下后上 再移动电梯
 
-        if(currentFloor == 13)
+        if(runType == 2 && elevatorID <= 1 && currentFloor == 6 || currentFloor == 13)
             direct = -1;
         if(currentFloor == 0)
             direct = 1;
@@ -70,13 +72,14 @@ public class Elevator extends Thread{
         if(container.size() > 0) {
             for(int i = 0; i < container.size(); i++) {
                 if (container.get(i).endFloor == currentFloor) {
-                    container.remove(i--);
+                    People p = container.remove(i--);
+                    instance.totalWaitCount += instance.mintues * Config.ONE_MINUTE + instance.time * Config.REFRESH_TIME - p.comingTime;
                     outNum++;
                 }
             }
         }
         try {
-            Thread.sleep(Config.OPEN_CLOSE_SPEED * outNum);
+            Thread.sleep(Config.POP_PUSH_SPEED * outNum);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }

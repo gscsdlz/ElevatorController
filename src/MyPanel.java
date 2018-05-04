@@ -8,6 +8,7 @@ public class MyPanel extends JPanel{
     private int outNum[] = new int[4];
     private int time = 0;
     private int totalSizeQueue = -1;
+    private int totalWaitTime = -1;
     private int people = 0;
 
 	@Override
@@ -43,9 +44,11 @@ public class MyPanel extends JPanel{
 
         g.setColor(Color.black);
         g.drawString("当前运行时间： " + time +" 分钟", 100, 510);
-
+        if(totalSizeQueue == -1) {
             g.drawString("平均等待时间： -- 分钟", 100, 550);
-
+        } else {
+            g.drawString("平均等待时间： "+(totalWaitTime / Config.ONE_MINUTE / 60 / 6)+" 分钟", 100, 550);
+        }
         if(totalSizeQueue == -1) {
             g.drawString("平均队列人数： -- 人", 100, 590);
         } else {
@@ -132,8 +135,9 @@ public class MyPanel extends JPanel{
         time = t;
     }
 
-    public void setEnd(int total1) {
+    public void setEnd(int total1, int total2) {
         totalSizeQueue = total1;
+        totalWaitTime = total2;
     }
 
     public void setPeople(int p) {
