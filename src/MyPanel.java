@@ -3,20 +3,25 @@ import java.awt.*;
 
 public class MyPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
-    public boolean drawUpOn = false;
-    public boolean drawDownOn = false;
-
-    private int[][] args = new int[4][2];
+    private int nums[] = new int[56];
+    private int elevators[] = new int[4];
+    private int outNum[] = new int[4];
+    private int time = 0;
+    private int totalSizeQueue = -1;
+    private int people = 0;
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//设置标题
 		drawBasicUI(g);
-		for(int i = 0; i < 4; i++) {
-		    drawPeople(g, i, Start.peopleQueue.size(i));
+        for(int i = 0; i < 4; i++) {
+            for (int j = 0; j < 14; j++) {
+                drawPeople(g, i, nums[i * 14 + j], j);
+            }
+            drawElevator(g, i, elevators[i] & 15, elevators[i] & 240, elevators[i] >> 8);
+            drawOut(g, i, outNum[i] & 15, outNum[i] >> 4);
         }
-        _drawDown(g);
 	}
 
     /**
@@ -24,65 +29,39 @@ public class MyPanel extends JPanel{
      * @param g
      */
 	private  void drawBasicUI(Graphics g) {
-        g.setFont(new Font("楷体",Font.BOLD,25));
-        g.setColor(Color.black);
-        g.drawString("电梯系统的仿真与可视化", 500, 30);
 
         g.setFont(new Font("楷体",Font.BOLD,20));
-        g.setColor(Color.black);
-        g.drawString("第", 20, 80);
-        g.setColor(Color.red);
-        g.drawString(People.id + "", 40, 80);
-        g.setColor(Color.black);
-        if(People.id > 100)
-            g.drawString("名用户", 70, 80);
-        else
-            g.drawString("名用户", 60, 80);
-
-
-        for(int i = 0; i < 4 ; i++) {
-            g.setColor(Color.yellow);
-            g.drawRect(20 + i * 320, 400, 260, 40);
-            g.fillRect(20+ i * 320, 400, 260, 40);
-        }
-        for(int j = 0 ; j < 14 ; j++) {
-            g.setColor(Color.BLACK);
-            g.drawRect(280, 410 - 30 * j, 55, 30);
-            if(Start.elevatorQueue[0].getCurrentFloor() == j + 1)
-                g.drawString(Start.elevatorQueue[0].size() + "人", 300, 410 - 30 * j + 20);
-        }
-        for(int j = 0 ; j < 14 ; j++) {
-            g.setColor(Color.BLACK);
-            g.drawRect(600, 410 - 30 * j, 55, 30);
-            if(Start.elevatorQueue[1].getCurrentFloor() == j + 1)
-                g.drawString(Start.elevatorQueue[1].size() + "人", 620, 410 - 30 * j + 20);
-        }
-        for(int j = 0 ; j < 14 ; j++) {
-            g.setColor(Color.BLACK);
-            g.drawRect(920, 410 - 30 * j, 55, 30);
-
-            if(Start.elevatorQueue[2].getCurrentFloor() == j + 1)
-                g.drawString(Start.elevatorQueue[2].size() + "人", 940, 410 - 30 * j + 20);
-        }
-        for(int j = 0 ; j < 14 ; j++) {
-            g.setColor(Color.BLACK);
-            g.drawRect(1240, 410 - 30 * j, 55, 30);
-
-            if(Start.elevatorQueue[3].getCurrentFloor() == j + 1)
-                g.drawString(Start.elevatorQueue[3].size() + "人", 1260, 410 - 30 * j + 20);
+        for(int i = 0; i < 4; i++) {
+            for (int j = 0; j < 14; j++) {
+                g.setColor(Color.BLACK);
+                g.drawRect(i * 60 + 50 * (i + 1), 410 - 30 * j, 40, 30);
+            }
         }
 
         g.setColor(Color.black);
-        g.drawLine(20, 500, 1300, 500);
+        g.drawLine(20, 480, 1300, 480);
 
         g.setColor(Color.black);
-        if(Start.hasEnd) {
-            g.drawString("平均等待时间：" + Start.aveWaitTime + "分钟", 100, 550);
-            g.drawString("平均队列人数：" + Start.aveQueueSize + "人", 100, 590);
-        } else {
+        g.drawString("当前运行时间： " + time +" 分钟", 100, 510);
+
             g.drawString("平均等待时间： -- 分钟", 100, 550);
+
+        if(totalSizeQueue == -1) {
             g.drawString("平均队列人数： -- 人", 100, 590);
+        } else {
+            g.drawString("平均队列人数： " +  (totalSizeQueue / Config.MAX_MINTUES * 1.0)+ " 人", 100, 590);
         }
+
+
+        g.drawString("第", 100, 630);
+        g.setColor(Color.red);
+        g.drawString(people + "", 125, 630);
+        g.setColor(Color.black);
+        if(people > 100)
+            g.drawString("名用户", 170, 630);
+        else
+            g.drawString("名用户", 160, 630);
+
     }
 
     /**
@@ -93,50 +72,72 @@ public class MyPanel extends JPanel{
      * @param elevatorID 电梯编号 从0开始
      * @param length 小人个数
      */
-    private void drawPeople(Graphics g, int elevatorID, int length) {
+    public void drawPeople(Graphics g, int elevatorID, int length, int floor) {
 
-        int zoom = 14;
-        int space = 10;
-        if(length > 9) {
-            g.drawString(length + " x",
-                    20 + elevatorID * 320 + 260 - 3 * zoom - 10 * 3,
-                    435);
-            length = 1;
-        }
-        for(int i = 1; i <= length; i++) {
-            int x = 20 + elevatorID * 320 + 260 - i * zoom - 10 * i;
-            int y = 400;
-            //小人的头
-            g.fillArc(x, y, zoom, zoom, 0, 360);
-            //小人的身子
-            g.drawLine(x + zoom / 2, y + zoom, x + zoom / 2, y + zoom + zoom);
-            g.drawLine(x, y + zoom + zoom / 2, x + zoom, y + zoom + zoom / 2);
-            //小人的脚
-            g.drawLine(x + zoom / 2, y + zoom * 2, x, y + zoom * 3);
-            g.drawLine(x + zoom / 2, y + zoom * 2, x + zoom, y + zoom * 3);
-        }
+        g.setColor(Color.black);
+        int x = elevatorID * 60 + 50 * (elevatorID + 1);
+        int y = 410 - 30 * (floor - 1) - 8;
+        g.drawString(length + "x", x - 50, y);
+        x -= 14;
+        y -= 20;
+        //小人的头
+        g.fillArc(x, y, 8, 8, 0, 360);
+        //小人的身子
+        g.drawLine(x + 8 / 2, y + 8, x + 8 / 2, y + 8 + 8);
+        g.drawLine(x, y + 8 + 8 / 2, x + 8, y + 8 + 8 / 2);
+        //小人的脚
+        g.drawLine(x + 8 / 2, y + 8 * 2, x, y + 8 * 3);
+        g.drawLine(x + 8 / 2, y + 8 * 2, x + 8, y + 8 * 3);
     }
 
-    /**
-     * 外部接口
-     */
-    public void setDrawDown(int id, int size, int floor) {
-        drawDownOn = true;
-        args[id][0] =size;
-        args[id][1] =floor;
+    public void drawElevator(Graphics g, int id, int currentFloor, int direct, int size) {
+        if(direct == 0)
+            return;
+        int x = id * 60 + 50 * (id + 1);
+        int y = 410 - 30 * (currentFloor - 1) - 8;
+
+        g.setColor(Color.BLUE);
+        if(direct == 16)
+            g.drawString(size + "↑", x, y);
+        else
+            g.drawString(size + "↓", x, y);
     }
 
-    /**
-     * 内部函数
-     * @param g
-     */
-    private void _drawDown(Graphics g) {
-        if(drawDownOn) {
-            g.setColor(Color.red);
-            for(int i = 0; i < 4; i++) {
-                if(args[i][0] != 0)
-                    g.drawString("-"+args[i][0] + "人", 310 + i * 320 + 40, 410 - 30 * args[i][1] + 20);
-            }
-        }
+    public void drawOut(Graphics g, int id, int floor, int size) {
+        if(size == 0)
+            return;
+
+        int x = id * 60 + 50 * (id + 1) + 40;
+        int y = 410 - 30 * (floor - 1) - 8;
+
+        g.setColor(Color.RED);
+        g.drawString("" + size, x, y);
     }
+
+    public void setDrawPeople(int nums[]) {
+        this.nums = nums;
+    }
+
+    public void setElevator(int id, int currentFloor, int direct, int size) {
+        //direct == 1 ? 1 : 2避免由于-1 带来的位运算错误
+        this.elevators[id]  = ((currentFloor) | ((direct == 1 ? 1 : 2) << 4) | (size << 8));
+
+    }
+
+    public void setOut(int id, int floor, int size) {
+        this.outNum[id] = floor | (size << 4);
+    }
+
+    public void setTime(int t) {
+        time = t;
+    }
+
+    public void setEnd(int total1) {
+        totalSizeQueue = total1;
+    }
+
+    public void setPeople(int p) {
+        people = p;
+    }
+
 }

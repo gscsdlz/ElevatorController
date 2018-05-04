@@ -11,75 +11,83 @@ public class MyFrame extends JFrame{
 	private JPanel jp1;
 
     public static void main(String[] args) {
-
+        MyFrame myFrame1 = new MyFrame();
+        myFrame1.init(0);
+//        MyFrame myFrame2 = new MyFrame();
+//        myFrame2.init(1);
+//        MyFrame myFrame3 = new MyFrame();
+//        myFrame3.init(2);
     }
 
-	public void init() {
+	public void init(int id) {
 
-		jb1=new JButton("正常模式");
-		Font f=new Font("华文行楷",Font.BOLD,20);//根据指定字体名称、样式和磅值大小，创建一个新 Font。
-		jb1.setFont(f);
-		//jb1.setBounds(20,10,800,560);
-		/*jb1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("切换到正常模式");
-				JOptionPane.showMessageDialog(Start.ui,"正常模式", "提示信息",JOptionPane.WARNING_MESSAGE );
+        Font f = new Font("华文行楷", Font.BOLD, 20);//根据指定字体名称、样式和磅值大小，创建一个新 Font。
+        jp1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-				SelectController.setStrategy(new NormalAlg());
-				Start.init();
-			}
-		});*/
-		jb2=new JButton("单双层模式");
-		jb2.setFont(f);
-		jb2.setBounds(20,10,830,560);
-		/*jb2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("切换到单双层模式");
-				JOptionPane.showMessageDialog(Start.ui,"切换到单双层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
+        if(id == 0) {
+            jb1 = new JButton("正常模式");
+            jb1.setFont(f);
+            jb1.setBounds(20, 10, 830, 560);
+            jp1.add(jb1);
+        }
 
-				SelectController.setStrategy(new SingleDoubleAlg());
-				Start.init();
-			}
-		});
-*/
-		
-		jb3=new JButton("分层模式");
-		jb3.setFont(f);
-		jb3.setBounds(20,10,860,560);
-	/*	jb3.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("切换到分层模式");
-				JOptionPane.showMessageDialog(Start.ui,"切换到分层模式", "提示信息",JOptionPane.WARNING_MESSAGE );
+        if(id == 1) {
+            jb2 = new JButton("单双层模式");
+            jb2.setFont(f);
+            jb2.setBounds(20, 10, 830, 560);
+            jp1.add(jb2);
+        }
 
-				SelectController.setStrategy(new LayerModeAlg());
-				Start.init();
+        if(id == 2) {
+            jb3 = new JButton("分层模式");
+            jb3.setFont(f);
+            jb3.setBounds(20, 10, 860, 560);
+            jp1.add(jb3);
+        }
 
-			}
-		});*/
-		jp1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		jp1.add(jb1);
-		jp1.add(jb2);
-		jp1.add(jb3);
-	
+
 		this.setTitle("电梯系统的仿真与可视化");
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH	);
 		this.setAlwaysOnTop(true);
 		this.setLayout(new BorderLayout());
-		
+
 		this.add(jp1,BorderLayout.SOUTH);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().add(mp);
 		this.setVisible(true);
+		this.setSize(455, 768);
+		this.setLocation(id * 455, 0);
 	}
 
 	public void drawDown(int id, int size, int floor) {
-    	mp.setDrawDown(id, size, floor);
+    //	mp.setDrawDown(id, size, floor);
 	}
 
 	public void drawDownOn() {
-		mp.drawDownOn = true;
+	//	mp.drawDownOn = true;
 	}
+
+	public void drawPublicPool(int num[]) {
+        mp.setDrawPeople(num);
+    }
+
+    public void drawElevator(int id, int currentFloor, int direct, int size) {
+        mp.setElevator(id, currentFloor, direct, size);
+    }
+
+    public void drawOut(int id, int floor, int size) {
+        mp.setOut(id, floor, size);
+    }
+
+    public void drawTime(int time) {
+        mp.setTime(time);
+    }
+
+    public void drawPeople(int size) {
+        mp.setPeople(size);
+    }
+
+    public void drawEnd(int totalSizeCount) {
+        mp.setEnd(totalSizeCount);
+    }
 }

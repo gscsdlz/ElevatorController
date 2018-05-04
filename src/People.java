@@ -1,7 +1,7 @@
 import java.util.Comparator;
 
-public class People implements Comparable<People> {
-    public static int id = 1;
+public class People {
+    public int id = 0;
     public int beginFloor = 1;
     public int endFloor = 14;
     public int comingTime = 0;
@@ -10,16 +10,13 @@ public class People implements Comparable<People> {
         this.beginFloor = beginFloor;
         this.endFloor = endFloor;
         this.comingTime = comingTime;
-        id = id + 1;
     }
 
     public People() {
-        id = id + 1;
     }
 
     @Override
-    public int compareTo(People o) {
-    	//��С��������
-        return (this.endFloor - o.endFloor);
+    public String toString() {
+        return id + " " + this.beginFloor + " " + this.endFloor;
     }
 }

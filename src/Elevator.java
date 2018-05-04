@@ -7,45 +7,82 @@ import java.util.Queue;
  * 存储电梯当前楼层以及People类
  *
  */
-public class Elevator {
-    private Queue<People> container;
+public class Elevator extends Thread{
+    private LinkedList<People> container;
+    private PublicPool poolInstance;
     private int currentFloor;
     private int direct;
+    private int elevatorID;
+    private int outNum = 0;
+    private int runType;
 
-    public Elevator() {
-        this.container = new PriorityQueue<People>();
-        currentFloor = 1;
+    public Elevator(PublicPool pool, int id, int type) {
+        this.container = new LinkedList<People>();
+        this.poolInstance = pool;
+        currentFloor = 0;
         direct = 1;
+        elevatorID  = id;
+        runType = type;
     }
 
-    public void push(People p) {
-        container.add(p);
+    protected void push() {
+        try {
+            Thread.sleep(Config.POP_PUSH_SPEED);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        People p;
+        while(container.size() < Config.ELEVATO_SIZE && (p = poolInstance.get(elevatorID, currentFloor, direct)) != null) {
+            container.add(p);
+        }
     }
 
     public void move() {
-        if(currentFloor == 14)
+        //先下后上 再移动电梯
+
+        if(currentFloor == 13)
             direct = -1;
-        if(currentFloor == 1)
+        if(currentFloor == 0)
             direct = 1;
+
+        if( runType == 0 ||    //正常模式
+            currentFloor == 0 ||   //最底层
+            (runType == 1 && (elevatorID <= 1 && currentFloor % 2 != 0) || (elevatorID >= 2 && currentFloor % 2 == 0)) ||    //单双模式
+            (runType == 2 && (elevatorID <= 1 && currentFloor <= 6) || (elevatorID >= 2 && currentFloor >= 7)) ) {
+
+            popAll();
+            push();
+        }
+
+
+        try {
+            Thread.sleep(Config.ELEVATO_SPEED);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
         currentFloor = currentFloor + direct;
     }
 
-    public People pop(){
-        if(container.size() > 0 && container.peek().endFloor == currentFloor) {
-            return container.remove();
+    protected void popAll() {
+
+        outNum = 0;
+        if(container.size() > 0) {
+            for(int i = 0; i < container.size(); i++) {
+                if (container.get(i).endFloor == currentFloor) {
+                    container.remove(i--);
+                    outNum++;
+                }
+            }
         }
-        return null;
+        try {
+            Thread.sleep(Config.OPEN_CLOSE_SPEED * outNum);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
     }
 
-    public void popAll() {
-        while(true) {
-            People p = this.pop();
-            if(p == null)
-                break;
-        }
-    }
-
-    public int size() {
+    public int getSize() {
         return container.size();
     }
 
@@ -53,9 +90,13 @@ public class Elevator {
         return this.currentFloor;
     }
 
-    public void init() {
-        popAll();
-        currentFloor = 1;
-        direct = 1;
+    public int getDirect() {return this.direct;}
+
+    public void run() {
+        while(true) move();
+    }
+
+    public int getOutNum() {
+        return outNum;
     }
 }

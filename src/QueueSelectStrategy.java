@@ -3,5 +3,5 @@
  */
 
 public  interface QueueSelectStrategy {
-    int doSelect();
+    int doSelect(int beginFloor, int endFloor, int nums[] );
 }

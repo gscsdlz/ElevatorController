@@ -4,11 +4,11 @@
 public class SingleDoubleAlg implements QueueSelectStrategy{
 
     @Override
-    public int doSelect() {
-        if (Start.endFloor % 2 == 0) {   //2 4 6 8 10 12 14
-            return Start.peopleQueue.size(2) > Start.peopleQueue.size(3) ? 3 : 2;
+    public int doSelect(int beginFloor, int endFloor, int[] nums) {
+        if (endFloor % 2 != 0) {   //1 3 5 7 9 11 13
+            return nums[0 * 14 + beginFloor] >  nums[1 * 14 + beginFloor] ? 1 : 0;
         } else {
-            return Start.peopleQueue.size(0) > Start.peopleQueue.size(1) ? 1 : 0;
+            return  nums[2 * 14 + beginFloor] >  nums[3 * 14 + beginFloor] ? 3 : 2;
         }
     }
 }

@@ -3,12 +3,14 @@
  */
 public class NormalAlg implements QueueSelectStrategy {
     @Override
-    public int doSelect() {
+    public int doSelect(int beginFloor, int endFloor, int nums[] ) {
         int length = Integer.MAX_VALUE;
         int pos = -1;
+
         for(int i = 0; i < 4; i++) {
-            if(length > Start.peopleQueue.size(i)) {
-                length = Start.peopleQueue.size(i);
+
+            if(length > nums[i * 14 + beginFloor]) {
+                length = nums[i * 14 + beginFloor];
                 pos = i;
             }
         }
